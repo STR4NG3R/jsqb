@@ -17,14 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package io.github.str4ng3r;
+package io.github.str4ng3r.common;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
-import io.github.str4ng3r.Constants.SqlDialect;
-
-import io.github.str4ng3r.Join.JOIN;
 import io.github.str4ng3r.exceptions.InvalidSqlGenerationException;
+import io.github.str4ng3r.common.Constants.SqlDialect;
+import io.github.str4ng3r.common.Join.JOIN;
 
 /**
  *
@@ -33,17 +34,11 @@ import io.github.str4ng3r.exceptions.InvalidSqlGenerationException;
 abstract class QueryBuilder<T> {
   protected Constants constants = new Constants();
   protected Parameter parameter = new Parameter();
-  protected WhereHaving where;
+  protected WhereHaving where = new WhereHaving(" WHERE ", this.parameter);
   protected Tables tables;
   protected T t;
 
-  QueryBuilder() {
-    initialize();
-  }
-
-  private void initialize() {
-    this.where = new WhereHaving(" WHERE ", this.parameter);
-  }
+  QueryBuilder() {}
 
   protected void setReferenceObject(T t) {
     this.t = t;
@@ -71,10 +66,9 @@ abstract class QueryBuilder<T> {
   public SqlParameter getSqlAndParameters() throws InvalidSqlGenerationException {
     String sql = this.write();
 
-    List<String> orderParameters = parameter.sortParameters(parameter.getIndexesOfOcurrences(sql));
-    sql = parameter.replaceParamatersOnSql(sql);
+    List<Object> orderParameters = parameter.sortParameters(parameter.getIndexesOfOccurrences(sql));
 
-    return new SqlParameter(sql, orderParameters);
+    return new SqlParameter(parameter.getSql(), orderParameters);
   }
 
   /**
@@ -97,7 +91,7 @@ abstract class QueryBuilder<T> {
    *
    * @return same object as pipe
    */
-  public T where(String criteria, Parameter... parameters) {
+  public T where(String criteria, Consumer<HashMap<String, String>> parameters) {
     this.where.addCriteria(criteria, parameters);
     return t;
   }
@@ -110,7 +104,7 @@ abstract class QueryBuilder<T> {
    *
    * @return same object as pipe
    */
-  public T andWhere(String criteria, Parameter... parameters) {
+  public T andWhere(String criteria, Consumer<HashMap<String, String>> parameters) {
     this.where.andAddCriteria(criteria, parameters);
     return t;
   }
@@ -154,4 +148,15 @@ abstract class QueryBuilder<T> {
     return t;
   }
 
+  /**
+   * Add table
+   *
+   * @param tableName A source to join could be a query or table
+   *
+   * @return same object as pipe
+   */
+  public T addFrom(String tableName) {
+    tables.from(tableName);
+    return t;
+  }
 }

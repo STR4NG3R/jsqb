@@ -1,7 +1,7 @@
-package io.github.str4ng3r;
+package io.github.str4ng3r.common;
 
-import io.github.str4ng3r.Constants.SqlDialect;
 import io.github.str4ng3r.exceptions.InvalidCurrentPageException;
+import io.github.str4ng3r.common.Constants.SqlDialect;
 
 public class Pagination {
   Integer pageSize;
@@ -26,7 +26,7 @@ public class Pagination {
   @Override
   public String toString() {
     return "{\n\tpageSize: " + pageSize + ",\n\tcount: " + count + ",\n\tcurrentPage: " + currentPage
-        + "\n\ttotalPages: " + totalPages + "\n\t}";
+        + "\n\ttotalPages: " + totalPages + "\n}";
   }
 
   protected void calculatePagination(SqlParameter sqlP, Constants constants, Parameter parameter)
@@ -37,15 +37,15 @@ public class Pagination {
     int lower = pageSize * (currentPage - 1);
     int upper = 0;
 
-    if (constants.getSqlDialect() == SqlDialect.Oracle.sqlDialect)
+    if (constants.getSqlDialect().equals(SqlDialect.Oracle.sqlDialect))
       upper = pageSize;
     else
       upper = lower + pageSize;
 
     totalPages = (int) Math.ceil((double) count / pageSize);
     sqlP.p = this;
-    sqlP.sql += parameter.setParameter(constants.getAction(Constants.Actions.PAGINATION),
-        Integer.toString(lower), Integer.toString(upper));
+    sqlP.sql += constants.replaceValues(constants.getAction(Constants.Actions.PAGINATION),
+        Integer.toString(upper), Integer.toString(lower));
   }
 
   public Integer getPageSize() {
