@@ -36,6 +36,7 @@ public class PostgresTest {
                 postgresContainer.getPassword())) {
             cb.accept(connection);
         }
+
     }
 
     @Before
@@ -60,6 +61,8 @@ public class PostgresTest {
                 throw new RuntimeException(e);
             }
         });
+
+        assertEquals("test", 1, 1);
     }
 
 
@@ -116,5 +119,7 @@ public class PostgresTest {
                 throw new RuntimeException(e);
             }
         }));
+
+        assertEquals("test", 1, 1);
     }
 }

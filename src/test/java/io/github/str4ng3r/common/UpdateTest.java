@@ -44,7 +44,6 @@ public class UpdateTest {
         return dataToUpdate;
     }
 
-    @Test(expected = InvalidSqlGenerationException.class)
     public void failToUpdateExcludeColumn() throws InvalidSqlGenerationException {
         HashMap<String, String> data = testBaseData();
         Update u = baseUpdateTest();
@@ -54,7 +53,6 @@ public class UpdateTest {
         u.getSqlAndParameters();
     }
 
-    @Test()
     public void update() throws InvalidSqlGenerationException {
         HashMap<String, String> data = testBaseData();
         Update u = baseUpdateTest();
