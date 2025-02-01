@@ -17,16 +17,19 @@ public class Insert {
     public Insert() {
         columns = new StringBuilder();
         values = new ArrayList<>();
-        valuesQuestion= new StringBuilder();
+        valuesQuestion = new StringBuilder();
+    }
+    public Insert(String table) {
+        this();
     }
 
-    Insert setColumns(String... columns) {
+    public Insert setColumns(String... columns) {
         this.columns.append(String.join(",", columns));
         return this;
     }
 
-    Insert setValues(String... values) {
-        for (String v: values ) {
+    public Insert setValues(String... values) {
+        for (String v : values) {
             valuesQuestion.append("?,");
             this.values.add(v);
         }
@@ -34,12 +37,12 @@ public class Insert {
     }
 
 
-    Insert setTable(String table) {
+    public Insert setTable(String table) {
         this.table = table;
         return this;
     }
 
-    String write() throws InvalidSqlGenerationException {
+    public String write() throws InvalidSqlGenerationException {
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO ")
                 .append(table)
@@ -49,7 +52,7 @@ public class Insert {
                 .append(" VALUES (")
                 .append(this.valuesQuestion.substring(0, valuesQuestion.length() - 2))
                 .append(" )");
-        return  sql.toString();
+        return sql.toString();
     }
 
 }
