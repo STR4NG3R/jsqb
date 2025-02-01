@@ -27,7 +27,6 @@ public class PostgresTest {
 
     SelectorTest selectorTest = new SelectorTest();
 
-
     void interactWithDb(Consumer<Connection> cb) throws SQLException {
 
         try (Connection connection = DriverManager.getConnection(
@@ -65,7 +64,6 @@ public class PostgresTest {
         assertEquals("test", 1, 1);
     }
 
-
     @Test
     public void selectUsers() throws SQLException {
         interactWithDb((connection -> {
@@ -79,9 +77,7 @@ public class PostgresTest {
                     System.out.println(rs.getInt("id") + " " + rs.getString("name"));
                 }
 
-            } catch (InvalidSqlGenerationException e) {
-                throw new RuntimeException(e);
-            } catch (SQLException e) {
+            } catch (InvalidSqlGenerationException | SQLException e) {
                 throw new RuntimeException(e);
             }
         }));
@@ -99,7 +95,6 @@ public class PostgresTest {
 
                 PreparedStatement ps = connection.prepareStatement(sqlParameter.sql);
                 JDBCUtils.addParameters(ps, sqlParameter.getListParameters());
-                System.out.println(sqlParameter);
                 ResultSet rs = ps.executeQuery();
 
                 ArrayList<UserMapper> users = new ArrayList<>();
@@ -111,11 +106,7 @@ public class PostgresTest {
                 Template<List<UserMapper>> t = new Template<>(sqlParameter, users);
                 System.out.println(t);
 
-            } catch (InvalidSqlGenerationException e) {
-                throw new RuntimeException(e);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (InvalidCurrentPageException e) {
+            } catch (InvalidSqlGenerationException | SQLException | InvalidCurrentPageException e) {
                 throw new RuntimeException(e);
             }
         }));

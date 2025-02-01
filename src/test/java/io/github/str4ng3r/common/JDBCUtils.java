@@ -10,7 +10,6 @@ public class JDBCUtils {
 
     public static void addParameters(PreparedStatement ps, List<Object> parameters) throws SQLException {
         ps.clearParameters();
-        System.out.println(parameters);
         for (int i = 0; i < parameters.size(); i++) ps.setObject(i + 1, parameters.get(i));
     }
 
