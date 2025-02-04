@@ -29,7 +29,7 @@ import java.util.List;
 public class SqlParameter {
   public String sql;
   List<Object> listParamaters = new ArrayList<>();
-  HashMap<String, String> dictionarieParameters;
+  HashMap<String, Object> dictionarieParameters;
   protected Pagination p = null;
 
   SqlParameter(String sql, List<Object> parameter) {
@@ -37,7 +37,7 @@ public class SqlParameter {
     this.listParamaters = parameter;
   }
 
-  public SqlParameter(String sql, HashMap<String, String> parameters) {
+  public SqlParameter(String sql, HashMap<String, Object> parameters) {
     this.sql = sql;
     this.dictionarieParameters = parameters;
   }
@@ -46,7 +46,7 @@ public class SqlParameter {
     return this.listParamaters;
   }
   
-  public HashMap<String, String> dictionarieParameters(){
+  public HashMap<String, Object> dictionarieParameters(){
     return this.dictionarieParameters;
   }
 

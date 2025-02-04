@@ -46,13 +46,13 @@ final class WhereHaving {
     parameter.filterParameter(parameterToRemove);
   }
 
-  public void addCriteria(String criteria, Consumer<HashMap<String, String>> parameters) {
+  public void addCriteria(String criteria, Consumer<HashMap<String, Object>> parameters) {
     removeAllCriterias();
     parameters.accept(this.parameter.parameters);
     this.listFilterCriteria.add(criteria);
   }
 
-  public void andAddCriteria(String criteria, Consumer<HashMap<String, String>> parameters) {
+  public void andAddCriteria(String criteria, Consumer<HashMap<String, Object>> parameters) {
     this.listFilterCriteria.add(criteria);
     parameters.accept(this.parameter.parameters);
   }

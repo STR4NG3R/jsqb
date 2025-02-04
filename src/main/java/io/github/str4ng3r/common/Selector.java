@@ -107,7 +107,7 @@ public class Selector extends QueryBuilder<Selector> {
      * @param parameters
      * @return same object as pipe
      */
-    public Selector having(String criteria, Consumer<HashMap<String, String>> parameters) {
+    public Selector having(String criteria, Consumer<HashMap<String, Object>> parameters) {
         if (this.having == null)
             this.having = new WhereHaving(" HAVING ", this.parameter);
         this.having.addCriteria(criteria, parameters);
@@ -121,7 +121,7 @@ public class Selector extends QueryBuilder<Selector> {
      * @param parameters
      * @return same object as pipe
      */
-    public Selector andHaving(String criteria, Consumer<HashMap<String, String>> parameters) {
+    public Selector andHaving(String criteria, Consumer<HashMap<String, Object>> parameters) {
         if (this.having == null)
             this.having = new WhereHaving(" HAVING ", this.parameter);
         this.having.andAddCriteria(criteria, parameters);
