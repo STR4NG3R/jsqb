@@ -19,6 +19,7 @@ public class Insert {
         values = new ArrayList<>();
         valuesQuestion = new StringBuilder();
     }
+
     public Insert(String table) {
         this();
     }
@@ -28,11 +29,14 @@ public class Insert {
         return this;
     }
 
-    public Insert setValues(String... values) {
-        for (String v : values) {
+    public Insert setValues(Object... values) {
+        int lastElement = values.length - 1;
+        for (int i = 0; i < lastElement; i++) {
             valuesQuestion.append("?,");
-            this.values.add(v);
+            this.values.add(values[i]);
         }
+        valuesQuestion.append("?");
+        this.values.add(values[lastElement]);
         return this;
     }
 
@@ -50,9 +54,13 @@ public class Insert {
                 .append(columns)
                 .append(" ) ")
                 .append(" VALUES (")
-                .append(this.valuesQuestion.substring(0, valuesQuestion.length() - 2))
+                .append(this.valuesQuestion)
                 .append(" )");
         return sql.toString();
+    }
+
+    public String getSql() throws InvalidSqlGenerationException {
+        return write();
     }
 
 }

@@ -18,10 +18,6 @@
  */
 package io.github.str4ng3r.common;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import io.github.str4ng3r.exceptions.InvalidCurrentPageException;
 import io.github.str4ng3r.exceptions.InvalidSqlGenerationException;
 import io.github.str4ng3r.common.Join.JOIN;
