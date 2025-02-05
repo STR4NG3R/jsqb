@@ -44,8 +44,6 @@ class Tables {
         }
     }
 
-    ;
-
     public Tables(ACTIONSQL action) {
         this.action = action;
         this.fields = new ArrayList<>();
@@ -93,15 +91,13 @@ class Tables {
             sql.append("FROM ");
             sql.append(tables.get(0).name);
         } else if (this.action == ACTIONSQL.DELETE) {
-            addSeparatorTables(tables, sql);
             sql.append("FROM ");
-            sql.append(tables.get(0).name);
+            addSeparatorTables(tables, sql);
         } else if (this.action == ACTIONSQL.UPDATE) {
             sql.append(tables.get(0).name);
             sql.append(" SET ");
             addSeparator(fields, sql);
         }
-
 
         for (int i = 1; i < tables.size(); i++) {
             Table table = tables.get(i);
@@ -137,6 +133,4 @@ class Tables {
     public List<Table> getTables() {
         return tables;
     }
-
-    ;
 }
